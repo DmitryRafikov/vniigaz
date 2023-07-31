@@ -2,7 +2,7 @@ const ApiError = require("../error/apiError");
 const dotenv = require('dotenv');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const UserService = require("../models/services/implementations/UserService");
+const UserService = require("../models/services/implementations/OrganizationService");
 class UserController
 {
     generateToken(user){

@@ -1,14 +1,15 @@
 const sequelize = require('../../domain/db');
 
-class EventTypeService {
+
+class GrandService {
 
     /**
-     * @param {EventType} eventType 
+     * @param {Grand} grand 
      * @returns {Boolean} true
      */
-    async create(eventType) {
+    async create(grand) {
         try {
-            const result = await sequelize.models.eventType.create(eventType);
+            const result = await sequelize.models.grand.create(grand);
             return true;
         } catch (err) {
             return false;
@@ -16,27 +17,27 @@ class EventTypeService {
     }
 
      /**
-     * @param {EventType[]} eventTypeRange 
+     * @param {Grand[]} grandRange 
      * @returns {Boolean} true
      */
-    async updateOrCreateRange(eventTypeRange)
+    async updateOrCreateRange(grandRange)
     {
         try {
-            for(const eventType of eventTypeRange)
+            for(const grand of grandRange)
             {
-                const result = await sequelize.models.eventType.findOne(eventType, {
+                const result = await sequelize.models.grand.findOne(grand, {
                     where:{
-                        id: eventType.id
+                        id: grand.id
                     }
                 });
                 if(result){
-                    await sequelize.models.eventType.update(eventType, {
+                    await sequelize.models.grand.update(grand, {
                         where: {
                             id: id
                         }
                     });
                 }
-                else this.create(eventType);
+                else this.create(grand);
             }
             return true;
         } catch (err) {
@@ -45,14 +46,14 @@ class EventTypeService {
     }
 
     /**
-     * @param {EventType} eventType
+     * @param {Grand} grand
      * @returns {Boolean} true
      */
-    async update(eventType){
+    async update(grand){
         try {
-            await sequelize.models.eventType.update(eventType, {
+            await sequelize.models.grand.update(grand, {
                 where: {
-                    id: eventType.id
+                    id: grand.id
                 }
             });
             return true;
@@ -62,22 +63,22 @@ class EventTypeService {
     }
 
     /**
-     * @returns {EventType[]} 
+     * @returns {Grand[]} 
      */
     async getAllRecords(){
-        try { await sequelize.models.eventType.findAll()}
+        try { await sequelize.models.grand.findAll()}
         catch (err) { return null; }
     }
 
     /**
-     * @param {EventType} eventType
+     * @param {Grand} grand
      * @returns {Boolean} true
      */
-    async delete(eventType) {
+    async delete(grand) {
         try { 
-            await sequelize.models.eventType.delete(eventType, {
+            await sequelize.models.grand.delete(grand, {
                 where:{
-                    id: eventType.id
+                    id: grand.id
                 }
             }); 
             return true; 
@@ -87,4 +88,4 @@ class EventTypeService {
     }
 }
 
-module.exports = new EventTypeService();
+module.exports = new GrandService();

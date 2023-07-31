@@ -1,14 +1,14 @@
 const sequelize = require('../../domain/db');
 
-class EventTypeService {
+class EventDataService {
 
     /**
-     * @param {EventType} eventType 
+     * @param {EventData} eventData 
      * @returns {Boolean} true
      */
-    async create(eventType) {
+    async create(eventData) {
         try {
-            const result = await sequelize.models.eventType.create(eventType);
+            const result = await sequelize.models.eventData.create(eventData);
             return true;
         } catch (err) {
             return false;
@@ -16,27 +16,27 @@ class EventTypeService {
     }
 
      /**
-     * @param {EventType[]} eventTypeRange 
+     * @param {EventData[]} eventDataRange 
      * @returns {Boolean} true
      */
-    async updateOrCreateRange(eventTypeRange)
+    async updateOrCreateRange(eventDataRange)
     {
         try {
-            for(const eventType of eventTypeRange)
+            for(const eventData of eventDataRange)
             {
-                const result = await sequelize.models.eventType.findOne(eventType, {
+                const result = await sequelize.models.eventData.findOne(eventData, {
                     where:{
-                        id: eventType.id
+                        id: eventData.id
                     }
                 });
                 if(result){
-                    await sequelize.models.eventType.update(eventType, {
+                    await sequelize.models.eventData.update(eventData, {
                         where: {
                             id: id
                         }
                     });
                 }
-                else this.create(eventType);
+                else this.create(eventData);
             }
             return true;
         } catch (err) {
@@ -45,14 +45,14 @@ class EventTypeService {
     }
 
     /**
-     * @param {EventType} eventType
+     * @param {EventData} eventData
      * @returns {Boolean} true
      */
-    async update(eventType){
+    async update(eventData){
         try {
-            await sequelize.models.eventType.update(eventType, {
+            await sequelize.models.eventData.update(eventData, {
                 where: {
-                    id: eventType.id
+                    id: eventData.id
                 }
             });
             return true;
@@ -62,22 +62,22 @@ class EventTypeService {
     }
 
     /**
-     * @returns {EventType[]} 
+     * @returns {EventData[]} 
      */
     async getAllRecords(){
-        try { await sequelize.models.eventType.findAll()}
+        try { await sequelize.models.eventData.findAll()}
         catch (err) { return null; }
     }
 
     /**
-     * @param {EventType} eventType
+     * @param {EventData} eventData
      * @returns {Boolean} true
      */
-    async delete(eventType) {
+    async delete(eventData) {
         try { 
-            await sequelize.models.eventType.delete(eventType, {
+            await sequelize.models.eventData.delete(eventData, {
                 where:{
-                    id: eventType.id
+                    id: eventData.id
                 }
             }); 
             return true; 
@@ -87,4 +87,4 @@ class EventTypeService {
     }
 }
 
-module.exports = new EventTypeService();
+module.exports = new EventDataService();

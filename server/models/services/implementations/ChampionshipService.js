@@ -1,14 +1,14 @@
 const sequelize = require('../../domain/db');
 
-class EventTypeService {
+class ChampionshipService {
 
     /**
-     * @param {EventType} eventType 
+     * @param {Championship} championship 
      * @returns {Boolean} true
      */
-    async create(eventType) {
+    async create(championship) {
         try {
-            const result = await sequelize.models.eventType.create(eventType);
+            const result = await sequelize.models.championship.create(championship);
             return true;
         } catch (err) {
             return false;
@@ -16,27 +16,27 @@ class EventTypeService {
     }
 
      /**
-     * @param {EventType[]} eventTypeRange 
+     * @param {Championship[]} championshipRange 
      * @returns {Boolean} true
      */
-    async updateOrCreateRange(eventTypeRange)
+    async updateOrCreateRange(championshipRange)
     {
         try {
-            for(const eventType of eventTypeRange)
+            for(const championship of championshipRange)
             {
-                const result = await sequelize.models.eventType.findOne(eventType, {
+                const result = await sequelize.models.championship.findOne(championship, {
                     where:{
-                        id: eventType.id
+                        id: championship.id
                     }
                 });
                 if(result){
-                    await sequelize.models.eventType.update(eventType, {
+                    await sequelize.models.championship.update(championship, {
                         where: {
                             id: id
                         }
                     });
                 }
-                else this.create(eventType);
+                else this.create(championship);
             }
             return true;
         } catch (err) {
@@ -45,14 +45,14 @@ class EventTypeService {
     }
 
     /**
-     * @param {EventType} eventType
+     * @param {Championship} championship
      * @returns {Boolean} true
      */
-    async update(eventType){
+    async update(championship){
         try {
-            await sequelize.models.eventType.update(eventType, {
+            await sequelize.models.championship.update(championship, {
                 where: {
-                    id: eventType.id
+                    id: championship.id
                 }
             });
             return true;
@@ -62,22 +62,22 @@ class EventTypeService {
     }
 
     /**
-     * @returns {EventType[]} 
+     * @returns {Championship[]} 
      */
     async getAllRecords(){
-        try { await sequelize.models.eventType.findAll()}
+        try { await sequelize.models.championship.findAll()}
         catch (err) { return null; }
     }
 
     /**
-     * @param {EventType} eventType
+     * @param {Championship} championship
      * @returns {Boolean} true
      */
-    async delete(eventType) {
+    async delete(championship) {
         try { 
-            await sequelize.models.eventType.delete(eventType, {
+            await sequelize.models.championship.delete(championship, {
                 where:{
-                    id: eventType.id
+                    id: championship.id
                 }
             }); 
             return true; 
@@ -87,4 +87,4 @@ class EventTypeService {
     }
 }
 
-module.exports = new EventTypeService();
+module.exports = new ChampionshipService();

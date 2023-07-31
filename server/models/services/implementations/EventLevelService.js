@@ -1,4 +1,4 @@
-const sequelize = require('./models/domain/db');
+const sequelize = require('../../domain/db');
 
 class EventLevelService {
 

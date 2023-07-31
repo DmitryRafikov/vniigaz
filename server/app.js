@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const router = require('./routes/index');
 const sequelize = require('./models/domain/db');
-const errorHandler = require(/errors/middlewareErrorHandler.js);
+const errorHandler = require('./error/middlewareErrorHandler');
 
 
 const app = express();

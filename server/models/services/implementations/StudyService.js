@@ -1,14 +1,15 @@
 const sequelize = require('../../domain/db');
 
-class EventTypeService {
+
+class StudyService {
 
     /**
-     * @param {EventType} eventType 
+     * @param {Study} study 
      * @returns {Boolean} true
      */
-    async create(eventType) {
+    async create(study) {
         try {
-            const result = await sequelize.models.eventType.create(eventType);
+            const result = await sequelize.models.study.create(study);
             return true;
         } catch (err) {
             return false;
@@ -16,27 +17,27 @@ class EventTypeService {
     }
 
      /**
-     * @param {EventType[]} eventTypeRange 
+     * @param {Study[]} studyRange 
      * @returns {Boolean} true
      */
-    async updateOrCreateRange(eventTypeRange)
+    async updateOrCreateRange(studyRange)
     {
         try {
-            for(const eventType of eventTypeRange)
+            for(const study of studyRange)
             {
-                const result = await sequelize.models.eventType.findOne(eventType, {
+                const result = await sequelize.models.study.findOne(study, {
                     where:{
-                        id: eventType.id
+                        id: study.id
                     }
                 });
                 if(result){
-                    await sequelize.models.eventType.update(eventType, {
+                    await sequelize.models.study.update(study, {
                         where: {
                             id: id
                         }
                     });
                 }
-                else this.create(eventType);
+                else this.create(study);
             }
             return true;
         } catch (err) {
@@ -45,14 +46,14 @@ class EventTypeService {
     }
 
     /**
-     * @param {EventType} eventType
+     * @param {Study} study
      * @returns {Boolean} true
      */
-    async update(eventType){
+    async update(study){
         try {
-            await sequelize.models.eventType.update(eventType, {
+            await sequelize.models.study.update(study, {
                 where: {
-                    id: eventType.id
+                    id: study.id
                 }
             });
             return true;
@@ -62,22 +63,22 @@ class EventTypeService {
     }
 
     /**
-     * @returns {EventType[]} 
+     * @returns {Study[]} 
      */
     async getAllRecords(){
-        try { await sequelize.models.eventType.findAll()}
+        try { await sequelize.models.study.findAll()}
         catch (err) { return null; }
     }
 
     /**
-     * @param {EventType} eventType
+     * @param {Study} study
      * @returns {Boolean} true
      */
-    async delete(eventType) {
+    async delete(study) {
         try { 
-            await sequelize.models.eventType.delete(eventType, {
+            await sequelize.models.study.delete(study, {
                 where:{
-                    id: eventType.id
+                    id: study.id
                 }
             }); 
             return true; 
@@ -87,4 +88,4 @@ class EventTypeService {
     }
 }
 
-module.exports = new EventTypeService();
+module.exports = new StudyService();
