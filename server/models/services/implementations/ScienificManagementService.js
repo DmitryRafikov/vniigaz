@@ -1,7 +1,8 @@
 const sequelize = require('../../domain/db');
+const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
 
 
-class ScienificManagementService {
+class ScienificManagementService  extends ItemServiceInterface{
 
     /**
      * @param {ScienificManagement} scienificManagement 

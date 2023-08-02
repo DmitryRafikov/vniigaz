@@ -1,6 +1,6 @@
 const sequelize = require('../../domain/db');
 
-class EventTypeService {
+class EventTypeService{
 
     /**
      * @param {EventType} eventType 

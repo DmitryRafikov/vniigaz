@@ -1,7 +1,8 @@
 const sequelize = require('../../domain/db');
+const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
 
 
-class GrandService {
+class GrandService extends ItemServiceInterface{
 
     /**
      * @param {Grand} grand 
