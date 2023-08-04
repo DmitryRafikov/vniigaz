@@ -1,5 +1,6 @@
 const sequalize = require('../db');
 const {DataTypes} = require('sequalize');
+const event = require('./event');
 
 const EventData = sequalize.define('eventData', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -8,6 +9,7 @@ const EventData = sequalize.define('eventData', {
     data: {type: DataTypes.INTEGER, allowNull: false}
 });
 
-EventData.hasMany(organization, {foreignKey: {organizationId:'id'}});
+event.hasMany(EventData);
+EventData.belongsTo(event);
 
 module.exports = EventData;

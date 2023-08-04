@@ -1,6 +1,6 @@
 const ApiError = require('../error/apiError');
 
-module.exports = (req, res, next) => {
+module.exports = (err, req, res, next) => {
     if(err instanceof ApiError) {
         return res.status(err.status).json({
                     status: err.status,

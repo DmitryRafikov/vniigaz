@@ -1,8 +1,6 @@
 const sequelize = require('../../domain/db');
-const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
-//const OrganizationServiceInterface = require('../interfaces/OrganizationServiceInterface');
-
-class OrganizationService extends ItemServiceInterface{
+const organizations = require('../../domain/enitites/organization');
+class OrganizationService{
 
     /**
      * @param {int} $id
@@ -10,9 +8,9 @@ class OrganizationService extends ItemServiceInterface{
      */
     async organizationExist(id) {
         try {
-            const organization = await sequelize.models.organization.findOne({
+            const organization = await organizations.findOne({
                 where: {
-                    id: id
+                    id
                 }
             });
             if (organization) 
@@ -30,7 +28,7 @@ class OrganizationService extends ItemServiceInterface{
      */
     async createOrganization(organization) {
         try {
-            await sequelize.models.organization.create(organization);
+            await organizations.create(organization);
             return true;
         } catch (error) {
             return false;
@@ -43,9 +41,9 @@ class OrganizationService extends ItemServiceInterface{
      */
     async getOrganization(id) {
         try {
-            const organization = await sequelize.models.organization.findOne({
+            const organization = await organizations.findOne({
                 where: {
-                    id: id
+                    id
                 }
             });
             return organization;
@@ -59,13 +57,14 @@ class OrganizationService extends ItemServiceInterface{
      */
     async getOrganizationByLogin(login) {
         try {
-            const organization = await sequelize.models.organization.findOne({
+            const organization = await organizations.findOne({
                 where: {
-                    login: login
+                    login
                 }
             });
             return organization;
         } catch (error) {
+            console.log(error);
             return null;
         }
     }
@@ -77,9 +76,9 @@ class OrganizationService extends ItemServiceInterface{
      */
     async updateOrganization(id, organization) {
         try {
-            await sequelize.models.organization.update(organization, {
+            await organizations.update(organization, {
                 where: {
-                    id: id
+                    id
                 }
             });
             return true;
@@ -94,9 +93,9 @@ class OrganizationService extends ItemServiceInterface{
      */
     async deleteOrganization(id) {
         try {
-            await sequelize.models.organization.destroy({
+            await organizations.destroy({
                 where: {
-                    id: id
+                    id
                 }
             });
             return true;

@@ -1,32 +1,44 @@
 const ApiError = require("../error/apiError");
-const itemService = require("../models/services/interfaces/ItemServiceInterface");
+const ItemServiceInterface = require("../models/services/interfaces/ItemServiceInterface");
 
 class ItemController {
-    constructor(ItemServiceInterface)
+    constructor(args)
     {
-        this.itemService = ItemServiceInterface;
+        this.itemService = args;
     }
-
+    itemService;
     async addItems(req, res, next) {
-        const {items} = req.body.items;
-        for(const item of studies) {
+        const {items} = req.body;
+        for(const item of items) {
             try{
-                const result = await itemService.create(item);
-                res.json(result);
+                const result = await this.itemService.create(item);
+                res.json({result});
             } catch(error) {
                 next(ApiError.internalServerError(error));
             }
         }
     }
 
-    async getItems(res, next) {
+    async getItems(req, res, next) {
         try{
-            const result = await itemService.getAllRecords();
-            res.json(result);
+            const result = await this.itemService.getAllRecords();
+            res.json({result});
         }catch(error) {
+            console.log(error);
+            next(ApiError.internalServerError(error));
+        }
+    }
+
+    async updateItem(req, res, next) {
+        const {item} = req.body;
+        try{
+            const result = await this.itemService.updateItem(item);
+            res.json({result});
+        }catch(error) {
+            console.log(error);
             next(ApiError.internalServerError(error));
         }
     }
 }
 
-module.exports = new ItemController();
+module.exports = ItemController;

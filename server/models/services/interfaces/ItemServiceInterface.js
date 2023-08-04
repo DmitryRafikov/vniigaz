@@ -1,7 +1,4 @@
-let item = require('../../domain/enitites/item');
-
 class ItemServiceInterface{
-    constructor(){}
     /**
      * @param {int} $id
      * @returns {bool}
@@ -28,16 +25,17 @@ class ItemServiceInterface{
     async getItemByLogin(login) {}
 
     /**
-     * @param {int} $id
      * @param {item} $item
      * @returns {bool}
      */
-    async updateItem(id, item) {}
+    async updateItem(item) {}
     
     /**
      * @param {int} $id
      * @returns {bool}
      */
     async deleteItem(id) {}
+
+    async getAllRecords(){};
 }
-module.exports = new ItemServiceInterface();
+module.exports = ItemServiceInterface;

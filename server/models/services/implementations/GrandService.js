@@ -1,9 +1,11 @@
 const sequelize = require('../../domain/db');
-const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
+const itemServiceInterface = require('../interfaces/ItemServiceInterface');
 
+class GrandService extends itemServiceInterface{
 
-class GrandService extends ItemServiceInterface{
-
+    constructor(){
+        super();
+    };
     /**
      * @param {Grand} grand 
      * @returns {Boolean} true

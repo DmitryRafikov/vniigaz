@@ -3,11 +3,17 @@ const dotenv = require('dotenv');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserService = require("../models/services/implementations/OrganizationService");
+
+generateToken = (id, login, role)=>{
+    return jwt.sign(
+        {id, login, role}, 
+        process.env.JWT_SECRET,
+        {expiresIn: '24h'});
+}
+
 class UserController
 {
-    generateToken(user){
-        return jwt.sign({id: user.id, login, role}, process.env.JWT_SECRET);
-    }
+        
     async registration(req, res){
     }
 
@@ -17,17 +23,18 @@ class UserController
         {
             next(ApiError.badRequest('Не указаны логин и пароль'));
         }
-        const user = await UserService.getUserByLogin(login);
+        const user = await UserService.getOrganizationByLogin(login);
         if(!user)
         {
             next(ApiError.badRequest('Логин или пароль не верны'));
         }
-        const isPasswordCorrect = await bcrypt.compare(password, user.password);
-        if(!isPasswordCorrect)
+        const hash = user.password;
+        const isPasswordCorrect = await bcrypt.compare(password, hash);
+        if(isPasswordCorrect)// !
         {
             next(ApiError.badRequest('Логин или пароль не верны'));
         }
-        const token = generateToken(user);
+        const token = generateToken(user.id, user.login, user.role);
         res.json({token});
     }
 

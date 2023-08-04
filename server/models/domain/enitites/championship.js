@@ -1,5 +1,6 @@
 const sequalize = require('../db');
-const {DataTypes} = require('sequalize');
+const {DataTypes} = require('sequelize');
+const organization = require('./organization');
 
 const Championship = sequalize.define('championship', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -7,9 +8,14 @@ const Championship = sequalize.define('championship', {
     participantFullName: {type: DataTypes.STRING, allowNull: false},
     department: {type: DataTypes.STRING, allowNull: false},
     post: {type: DataTypes.STRING, allowNull: false},
-    isWinner: {type: DataTypes.BOOLEAN, allowNull: false}
-});
+    isWinner: {type: DataTypes.BOOLEAN, allowNull: false}},
+    {
+    createdAt: false,
+    updatedAt: false,
+    timestamps: false
+    });
 
-Championship.hasMany(organization, {foreignKey: {organizationId:'id'}});
+organization.hasMany(Championship);
+Championship.belongsTo(organization);
 
-module.exports = Championshipship;
+module.exports = Championship;

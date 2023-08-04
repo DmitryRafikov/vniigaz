@@ -1,4 +1,5 @@
-const sequelize = require('../../domain/db');
+//const sequelize = require('../../domain/db');
+const championships = require('../../domain/enitites/championship');
 const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
 
 class ChampionshipService extends ItemServiceInterface{
@@ -9,7 +10,7 @@ class ChampionshipService extends ItemServiceInterface{
      */
     async create(championship) {
         try {
-            const result = await sequelize.models.championship.create(championship);
+            await championships.create(championship);
             return true;
         } catch (err) {
             return false;
@@ -25,13 +26,13 @@ class ChampionshipService extends ItemServiceInterface{
         try {
             for(const championship of championshipRange)
             {
-                const result = await sequelize.models.championship.findOne(championship, {
+                const result = await championships.findOne(championship, {
                     where:{
                         id: championship.id
                     }
                 });
                 if(result){
-                    await sequelize.models.championship.update(championship, {
+                    await championships.update(championship, {
                         where: {
                             id: id
                         }
@@ -49,15 +50,15 @@ class ChampionshipService extends ItemServiceInterface{
      * @param {Championship} championship
      * @returns {Boolean} true
      */
-    async update(championship){
+    async updateItem(championship){
         try {
-            await sequelize.models.championship.update(championship, {
+            await championships.update(championship, {
                 where: {
                     id: championship.id
                 }
             });
             return true;
-        } catch (err) {
+        } catch (err) {console.log(err);
             return false;
         }
     }
@@ -66,7 +67,10 @@ class ChampionshipService extends ItemServiceInterface{
      * @returns {Championship[]} 
      */
     async getAllRecords(){
-        try { await sequelize.models.championship.findAll()}
+        try { 
+            const result = await championships.findAll()
+            return result
+        }
         catch (err) { return null; }
     }
 
@@ -76,7 +80,7 @@ class ChampionshipService extends ItemServiceInterface{
      */
     async delete(championship) {
         try { 
-            await sequelize.models.championship.delete(championship, {
+            await championships.delete(championship, {
                 where:{
                     id: championship.id
                 }
