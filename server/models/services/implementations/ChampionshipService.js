@@ -4,13 +4,49 @@ const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
 
 class ChampionshipService extends ItemServiceInterface{
 
+    async itemExists(id){
+        try {
+            const result = await championships.findOne(championship, {
+                where:{
+                    id: championship.id
+                }
+            });
+            return result? true : false;
+        } catch (err) {
+            return false;
+        };
+    }
+    async getItemById(id){
+        try {
+            const result = await championships.findOne(championship, {
+                where:{
+                    id: championship.id
+                }
+            });
+            return result;
+        } catch (err) {
+            return false;
+        };
+    }
     /**
      * @param {Championship} championship 
      * @returns {Boolean} true
      */
-    async create(championship) {
+    async updateOrCreate(championship) {
         try {
-            await championships.create(championship);
+            const result = await championships.findOne(championship, {
+                where:{
+                    id: championship.id
+                }
+            });
+            if(result) {
+                await championships.update(championship, {
+                    where: {
+                        id: id
+                    }
+                });
+            }
+            else await championships.create(championship);
             return true;
         } catch (err) {
             return false;
@@ -47,23 +83,6 @@ class ChampionshipService extends ItemServiceInterface{
     }
 
     /**
-     * @param {Championship} championship
-     * @returns {Boolean} true
-     */
-    async updateItem(championship){
-        try {
-            await championships.update(championship, {
-                where: {
-                    id: championship.id
-                }
-            });
-            return true;
-        } catch (err) {console.log(err);
-            return false;
-        }
-    }
-
-    /**
      * @returns {Championship[]} 
      */
     async getAllRecords(){
@@ -78,7 +97,7 @@ class ChampionshipService extends ItemServiceInterface{
      * @param {Championship} championship
      * @returns {Boolean} true
      */
-    async delete(championship) {
+    async deleteItem(championship) {
         try { 
             await championships.delete(championship, {
                 where:{

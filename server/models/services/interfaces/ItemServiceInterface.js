@@ -9,26 +9,19 @@ class ItemServiceInterface{
      * @param {item} $item
      * @returns {bool}
      */
-    async createItem(item) {}
+    async updateOrCreate(item) {}
+
+    /**
+     * @param {item[]} $item
+     * @returns {bool}
+     */
+    async updateOrCreateRange(itemRange) {}
 
     /**
      * @param {int} $id
      * @returns {item}
      */
-    async getItem(id) {}
-
-    /**
-     * 
-     * @param {string} login 
-     * @returns {item}
-     */
-    async getItemByLogin(login) {}
-
-    /**
-     * @param {item} $item
-     * @returns {bool}
-     */
-    async updateItem(item) {}
+    async getItemById(id) {}
     
     /**
      * @param {int} $id
@@ -36,6 +29,9 @@ class ItemServiceInterface{
      */
     async deleteItem(id) {}
 
+    /**
+     * @returns {item[]}
+     */
     async getAllRecords(){};
 }
 module.exports = ItemServiceInterface;
