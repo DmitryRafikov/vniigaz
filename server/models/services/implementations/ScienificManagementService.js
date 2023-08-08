@@ -1,16 +1,52 @@
-const sequelize = require('../../domain/db');
-const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
+const managements = require('../../domain/enitites/management');
+const itemServiceInterface = require('../interfaces/ItemServiceInterface');
 
+class ScienificManagementService extends itemServiceInterface
+{
 
-class ScienificManagementService  extends ItemServiceInterface{
-
+    async itemExists(id){
+        try {
+            const result = await managements.findOne({
+                where:{
+                    id
+                }
+            });
+            return result? true : false;
+        } catch (err) {
+            return false;
+        };
+    }
+    async getItemById(id){
+        try {
+            const result = await managements.findOne({
+                where:{
+                    id
+                }
+            });
+            return result;
+        } catch (err) {
+            return false;
+        };
+    }
     /**
-     * @param {ScienificManagement} scienificManagement 
+     * @param {Management} management 
      * @returns {Boolean} true
      */
-    async create(scienificManagement) {
+    async updateOrCreate(management) {
         try {
-            const result = await sequelize.models.scienificManagement.create(scienificManagement);
+            const result = await managements.findOne(management, {
+                where:{
+                    id: management.id
+                }
+            });
+            if(result) {
+                await managements.update(management, {
+                    where: {
+                        id: id
+                    }
+                });
+            }
+            else await managements.create(management);
             return true;
         } catch (err) {
             return false;
@@ -18,27 +54,27 @@ class ScienificManagementService  extends ItemServiceInterface{
     }
 
      /**
-     * @param {ScienificManagement[]} scienificManagementRange 
+     * @param {Management[]} managementRange 
      * @returns {Boolean} true
      */
-    async updateOrCreateRange(scienificManagementRange)
+    async updateOrCreateRange(managementRange)
     {
         try {
-            for(const scienificManagement of scienificManagementRange)
+            for(const management of managementRange)
             {
-                const result = await sequelize.models.scienificManagement.findOne(scienificManagement, {
+                const result = await managements.findOne(management, {
                     where:{
-                        id: scienificManagement.id
+                        id: management.id
                     }
                 });
                 if(result){
-                    await sequelize.models.scienificManagement.update(scienificManagement, {
+                    await managements.update(management, {
                         where: {
                             id: id
                         }
                     });
                 }
-                else this.create(scienificManagement);
+                else this.create(management);
             }
             return true;
         } catch (err) {
@@ -47,39 +83,25 @@ class ScienificManagementService  extends ItemServiceInterface{
     }
 
     /**
-     * @param {ScienificManagement} scienificManagement
-     * @returns {Boolean} true
-     */
-    async update(scienificManagement){
-        try {
-            await sequelize.models.scienificManagement.update(scienificManagement, {
-                where: {
-                    id: scienificManagement.id
-                }
-            });
-            return true;
-        } catch (err) {
-            return false;
-        }
-    }
-
-    /**
-     * @returns {ScienificManagement[]} 
+     * @returns {Management[]} 
      */
     async getAllRecords(){
-        try { await sequelize.models.scienificManagement.findAll()}
+        try { 
+            const result = await managements.findAll()
+            return result
+        }
         catch (err) { return null; }
     }
 
     /**
-     * @param {ScienificManagement} scienificManagement
+     * @param {Management} management
      * @returns {Boolean} true
      */
-    async delete(scienificManagement) {
+    async deleteItem(id) {
         try { 
-            await sequelize.models.scienificManagement.delete(scienificManagement, {
+            await managements.destroy({
                 where:{
-                    id: scienificManagement.id
+                    id
                 }
             }); 
             return true; 
@@ -88,5 +110,4 @@ class ScienificManagementService  extends ItemServiceInterface{
         }
     }
 }
-
 module.exports = new ScienificManagementService();

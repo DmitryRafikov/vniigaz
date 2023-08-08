@@ -1,18 +1,52 @@
-const sequelize = require('../../domain/db');
+const grands = require('../../domain/enitites/grand');
 const itemServiceInterface = require('../interfaces/ItemServiceInterface');
 
-class GrandService extends itemServiceInterface{
+class GrandService extends itemServiceInterface
+{
 
-    constructor(){
-        super();
-    };
+    async itemExists(id){
+        try {
+            const result = await grands.findOne({
+                where:{
+                    id
+                }
+            });
+            return result? true : false;
+        } catch (err) {
+            return false;
+        };
+    }
+    async getItemById(id){
+        try {
+            const result = await grands.findOne({
+                where:{
+                    id
+                }
+            });
+            return result;
+        } catch (err) {
+            return false;
+        };
+    }
     /**
      * @param {Grand} grand 
      * @returns {Boolean} true
      */
-    async create(grand) {
+    async updateOrCreate(grand) {
         try {
-            const result = await sequelize.models.grand.create(grand);
+            const result = await grands.findOne(grand, {
+                where:{
+                    id: grand.id
+                }
+            });
+            if(result) {
+                await grands.update(grand, {
+                    where: {
+                        id: id
+                    }
+                });
+            }
+            else await grands.create(grand);
             return true;
         } catch (err) {
             return false;
@@ -28,13 +62,13 @@ class GrandService extends itemServiceInterface{
         try {
             for(const grand of grandRange)
             {
-                const result = await sequelize.models.grand.findOne(grand, {
+                const result = await grands.findOne(grand, {
                     where:{
                         id: grand.id
                     }
                 });
                 if(result){
-                    await sequelize.models.grand.update(grand, {
+                    await grands.update(grand, {
                         where: {
                             id: id
                         }
@@ -49,27 +83,13 @@ class GrandService extends itemServiceInterface{
     }
 
     /**
-     * @param {Grand} grand
-     * @returns {Boolean} true
-     */
-    async update(grand){
-        try {
-            await sequelize.models.grand.update(grand, {
-                where: {
-                    id: grand.id
-                }
-            });
-            return true;
-        } catch (err) {
-            return false;
-        }
-    }
-
-    /**
      * @returns {Grand[]} 
      */
     async getAllRecords(){
-        try { await sequelize.models.grand.findAll()}
+        try { 
+            const result = await grands.findAll()
+            return result
+        }
         catch (err) { return null; }
     }
 
@@ -77,11 +97,11 @@ class GrandService extends itemServiceInterface{
      * @param {Grand} grand
      * @returns {Boolean} true
      */
-    async delete(grand) {
+    async deleteItem(id) {
         try { 
-            await sequelize.models.grand.delete(grand, {
+            await grands.destroy({
                 where:{
-                    id: grand.id
+                    id
                 }
             }); 
             return true; 
@@ -90,5 +110,4 @@ class GrandService extends itemServiceInterface{
         }
     }
 }
-
 module.exports = new GrandService();

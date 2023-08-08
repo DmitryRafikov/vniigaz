@@ -1,16 +1,51 @@
-const sequelize = require('../../domain/db');
+const studies = require('../../domain/enitites/study');
 const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
-
 
 class StudyService extends ItemServiceInterface{
 
+    async itemExists(id){
+        try {
+            const result = await studies.findOne({
+                where:{
+                    id
+                }
+            });
+            return result? true : false;
+        } catch (err) {
+            return false;
+        };
+    }
+    async getItemById(id){
+        try {
+            const result = await studies.findOne({
+                where:{
+                    id
+                }
+            });
+            return result;
+        } catch (err) {
+            return false;
+        };
+    }
     /**
      * @param {Study} study 
      * @returns {Boolean} true
      */
-    async create(study) {
+    async updateOrCreate(study) {
         try {
-            const result = await sequelize.models.study.create(study);
+            const result = await studies.findOne(study, {
+                where:{
+                    id: study.id
+                }
+            });
+            if(result) {
+                await studies.update(study, {
+                    where: {
+                        id: id
+                    }
+                });
+            }
+            else await studies.create(study);
             return true;
         } catch (err) {
             return false;
@@ -26,13 +61,13 @@ class StudyService extends ItemServiceInterface{
         try {
             for(const study of studyRange)
             {
-                const result = await sequelize.models.study.findOne(study, {
+                const result = await studies.findOne(study, {
                     where:{
                         id: study.id
                     }
                 });
                 if(result){
-                    await sequelize.models.study.update(study, {
+                    await studies.update(study, {
                         where: {
                             id: id
                         }
@@ -47,27 +82,13 @@ class StudyService extends ItemServiceInterface{
     }
 
     /**
-     * @param {Study} study
-     * @returns {Boolean} true
-     */
-    async update(study){
-        try {
-            await sequelize.models.study.update(study, {
-                where: {
-                    id: study.id
-                }
-            });
-            return true;
-        } catch (err) {
-            return false;
-        }
-    }
-
-    /**
      * @returns {Study[]} 
      */
     async getAllRecords(){
-        try { await sequelize.models.study.findAll()}
+        try { 
+            const result = await studies.findAll()
+            return result
+        }
         catch (err) { return null; }
     }
 
@@ -75,11 +96,11 @@ class StudyService extends ItemServiceInterface{
      * @param {Study} study
      * @returns {Boolean} true
      */
-    async delete(study) {
+    async deleteItem(id) {
         try { 
-            await sequelize.models.study.delete(study, {
+            await studies.destroy({
                 where:{
-                    id: study.id
+                    id
                 }
             }); 
             return true; 

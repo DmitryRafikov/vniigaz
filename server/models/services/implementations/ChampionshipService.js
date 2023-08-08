@@ -1,4 +1,3 @@
-//const sequelize = require('../../domain/db');
 const championships = require('../../domain/enitites/championship');
 const ItemServiceInterface = require('../interfaces/ItemServiceInterface');
 
@@ -6,9 +5,9 @@ class ChampionshipService extends ItemServiceInterface{
 
     async itemExists(id){
         try {
-            const result = await championships.findOne(championship, {
+            const result = await championships.findOne({
                 where:{
-                    id: championship.id
+                    id
                 }
             });
             return result? true : false;
@@ -18,9 +17,9 @@ class ChampionshipService extends ItemServiceInterface{
     }
     async getItemById(id){
         try {
-            const result = await championships.findOne(championship, {
+            const result = await championships.findOne({
                 where:{
-                    id: championship.id
+                    id
                 }
             });
             return result;
@@ -97,11 +96,11 @@ class ChampionshipService extends ItemServiceInterface{
      * @param {Championship} championship
      * @returns {Boolean} true
      */
-    async deleteItem(championship) {
+    async deleteItem(id) {
         try { 
-            await championships.delete(championship, {
+            await championships.destroy({
                 where:{
-                    id: championship.id
+                    id
                 }
             }); 
             return true; 
