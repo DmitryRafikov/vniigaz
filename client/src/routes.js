@@ -1,16 +1,22 @@
 import Admin from './pages/Admin';
-import {ADMIN_ROUTE, LOGIN_ROUTE} from './utils/consts';
+import Auth from './pages/Auth';
+import Form from './pages/Form';
+import {ADMIN_ROUTE, LOGIN_ROUTE, FORM_ROUTE} from './utils/consts';
 
-export const authRoutes = () => [
+export const authRoutes = [
     {
         path: ADMIN_ROUTE, 
         Component: Admin
     }
 ]
 
-export const publicRoutes = () => [
+export const publicRoutes = [
     {
         path: LOGIN_ROUTE,
         Component: Auth
+    },
+    {
+        path: FORM_ROUTE,
+        Component: Form
     }
 ]

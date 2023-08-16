@@ -1,22 +1,21 @@
-import {React} from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom'
-import { publicRoutes } from '../routes';
+import React from 'react';
+import {Routes, Route, Navigate} from 'react-router-dom';
+import { authRoutes, publicRoutes } from '../routes';
 import { FORM_ROUTE } from '../utils/consts';
-import { useContext } from 'react/cjs/react.production.min';
+import { Context } from '../index';
 
 const AppRouter = () => {
-    const {user} = useContext(Context)
-    const isAuth = false
+    const {user} = React.useContext(Context)
     return (
-    <Switch>
+    <Routes>
         { user.isAuth && authRoutes.map (({path , Component}) =>
-            <Route key={path} path={path} component={Component} exact/>
+            <Route key={path} path={path} element={<Component />} exact/>
         )}
         { publicRoutes.map (({path , Component}) =>
-            <Route key={path} path={path} component={Component} exact/>
+            <Route key={path} path={path} element={<Component/>} exact/>
         )}
-        <Redirect to={FORM_ROUTE} />
-    </Switch>
+        <Route element={<Navigate replace to={FORM_ROUTE} />} />
+    </Routes>
     );
 }
 export default AppRouter; 
