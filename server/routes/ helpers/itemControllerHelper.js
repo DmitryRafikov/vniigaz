@@ -24,7 +24,9 @@ class controllerHelper
     {
         const championshipController = new ItemController(championshipService);
         championshipController.updateItem(req, res, next);
+        
     }
+
 }
 
 module.exports = new controllerHelper();
