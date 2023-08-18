@@ -1,6 +1,6 @@
 import Admin from './pages/Admin';
 import Auth from './pages/Auth';
-import Form from './pages/Form';
+import Form from './components/OffcanvasMenu';
 import {ADMIN_ROUTE, LOGIN_ROUTE, FORM_ROUTE} from './utils/consts';
 
 export const authRoutes = [
