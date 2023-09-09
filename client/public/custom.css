@@ -1,0 +1,35 @@
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+  background-color: #E2E5FF;
+  --bs-table-striped-bg: transparent;
+}
+.table-striped>tbody>tr:nth-child(even)>td,
+.table-striped>tbody>tr:nth-child(even)>th {
+ 
+  --bs-table-striped-bg: transparent;
+}
+
+table {
+  border-collapse:separate !important;
+}
+
+tr{
+  margin: 20px;
+  border-radius: 10px!important;
+}
+td,th {
+  border:none !important;
+}
+
+.odd {
+  background-color: #E2E5FF !important;
+}
+
+.even {
+  background-color: #B7BEFF !important;
+}
+
+.transparent {
+  --bs-accordion-bg: transparent !important;
+}

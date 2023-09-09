@@ -1,42 +1,48 @@
-import ChampionshipsList from '../components/items/championshipsList';
-import GrandsList from '../components/items/grandsList';
-import OffcanvasComponent from '../components/table/OffcanvasComponent';
-import { useState } from 'react';
-import { Container, Button, Tab } from 'react-bootstrap';
-
-
-const grands = {
-fields: ["ID", "Наименование конкурса", "Тема работы", "Число участников", "Количество победителей"],
-items: [
-{ id: '1', competitionName: 'grand', topic: 'title', participantQuantity: '23', winnersQuantity: '1'},
-{ id: '2', competitionName: 'grand', topic: 'title', participantQuantity: '23', winnersQuantity: '1'},
-{ id: '3', competitionName: 'grand', topic: 'title', participantQuantity: '23', winnersQuantity: '1'},
-]};
-const championships = {
-  fields: ["ID", "ФИО участника", "Подразделение", "Должность", "Победитель"],
-  items: [
-  { id: '1', participantFullName: 'champ', department: 'title', post: '23', isWinner: 'true'},
-  { id: '2', participantFullName: 'champ', department: 'title', post: '23', isWinner: 'false'},
-  { id: '3', participantFullName: 'champ', department: 'title', post: '23', isWinner: 'false'},
-  ]
-};
+import {grands, championships, events, eventsData} from '../utils/data';
+import TableOutput from '../components/table/TableOutput'; 
+import OffcanvasMenu from '../components/table/parts/OffcanvasMenu';
+import TableName from '../components/table/parts/TableName';
+import React, { useEffect }from 'react';
+import { useDispatch } from 'react-redux'
+import {Container, Tab } from 'react-bootstrap';
+import {setPageTitle } from '../store/ui/ui.slice';
 
 const Form = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    //Задаём загловок для страницы
+    dispatch(setPageTitle('Название страницы'))
+  }, [])
+
   return (
-    <Container>
-        <Button variant="primary" onClick={handleShow}>
-        Launch
-        </Button>      
-        <OffcanvasComponent />
-        <Tab.Container defaultActiveKey="first" className="mt-4">
-            <Tab.Content>
-                <Tab.Pane eventKey="first"><GrandsList grands={grands}/> </Tab.Pane>
-                <Tab.Pane eventKey="second"><ChampionshipsList championships={championships}/></Tab.Pane>
+    <Container>   
+        <TableName />     
+        <Tab.Container className="mt-4">
+            <Tab.Content className='text-center'>
+                <Tab.Pane >
+                  <TableOutput 
+                    tableHeaders={events.fields} 
+                    mainTableData={events.items}
+                    extendTableData={eventsData.items}
+                  /> 
+                </Tab.Pane>
+                <Tab.Pane >
+                  <TableOutput 
+                    tableHeaders={grands.fields} 
+                    mainTableData={grands.items}
+                  /> 
+                </Tab.Pane>
+                <Tab.Pane >
+                  <TableOutput 
+                    tableHeaders={championships.fields} 
+                    mainTableData={championships.items}
+                  /> 
+                </Tab.Pane>
             </Tab.Content>
         </Tab.Container>
-
     </Container>
   );
-}
+};
 
 export default Form;
