@@ -1,13 +1,18 @@
-import TableHeader from './TableHeader';
-import TableBody from './TableBody';
+import TableHeader from './parts/TableHeader';
+import TableBody from './parts/TableBody';
 import React from 'react';
-import Table from 'react-bootstrap/Table';
+import Container from 'react-bootstrap/Container';
 
-export default TableOutput = (tableHeaders, mainTableData, extendTableData) => {
+const TableOutput = (props) => {
+
     return (
-        <Table striped >
-            <TableHeader headers = {tableHeaders}/>
-            <TableBody mainData={mainTableData} extendData={extendTableData}/>
-        </Table>
+        <Container className='p-0 mx-4'>
+            <TableHeader headers = {props.tableHeaders}/>
+            <TableBody 
+                mainData={props.mainTableData} 
+                extendData={props.extendTableData}
+            />
+        </Container>
     );
 }
+export default TableOutput;
